@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="Activity">
+    </item>
+
+    <item
+        android:id="@+id/action_creation"
+        android:title="Creation">
+    </item>
+
+    <item
+        android:id="@+id/action_votes"
+        android:title="Votes">
+    </item>
+
+    <item
+        android:id="@+id/action_relevance"
+        android:title="Relevance">
+    </item>
+
+    <item
+        android:id="@+id/action_asc"
+        android:title="Asc / Desc Order">
+    </item>
+
+</menu>
+
