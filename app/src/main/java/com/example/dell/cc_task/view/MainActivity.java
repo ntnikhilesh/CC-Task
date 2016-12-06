@@ -11,6 +11,7 @@ import com.example.dell.cc_task.controller.RequestInterface;
 import com.example.dell.cc_task.model.adapter.DataAdapter;
 import com.example.dell.cc_task.model.pojo.AndroidVersion;
 import com.example.dell.cc_task.model.pojo.JSONResponse;
+import com.example.dell.cc_task.model.utilities.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         //initialize Retrofit and carry out network operations
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.learn2crack.com")
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

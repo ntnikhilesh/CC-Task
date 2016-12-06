@@ -13,12 +13,13 @@ package com.example.dell.cc_task.controller;
 // the request is made Asynchronous so you need not worry about UI blocking or AsyncTask.
 // The JSON response received after making the request it is stored in JSONResponse object.
 import com.example.dell.cc_task.model.pojo.JSONResponse;
+import com.example.dell.cc_task.model.utilities.Constants;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface RequestInterface {
 
-    @GET("android/jsonandroid")
+    @GET(Constants.END_POINT)
     Call<JSONResponse> getJSON();
 }
