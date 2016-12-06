@@ -5,6 +5,8 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="com.example.dell.cc_task.view.MainActivity">
 
+    <!--RecyclerView widget in LinearLayout. -->
+
 <android.support.v7.widget.RecyclerView
     android:id="@+id/card_recycler_view"
     android:scrollbars="vertical"
