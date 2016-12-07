@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -13,14 +14,14 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.dell.cc_task.R;
+import com.example.dell.cc_task.model.adapter.MyAdapter;
 import com.example.dell.cc_task.model.api.ServiceInterface;
 import com.example.dell.cc_task.model.api.NetworkApiGenerator;
-import com.example.dell.cc_task.model.adapter.DataAdapter;
-import com.example.dell.cc_task.model.pojo.AndroidVersion;
 import com.example.dell.cc_task.model.pojo.Item;
 import com.example.dell.cc_task.model.pojo.Questions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit.Callback;
@@ -30,8 +31,8 @@ import retrofit.client.Response;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ArrayList<AndroidVersion> data;
-    private DataAdapter adapter;
+    private ArrayList<Item> data;
+    private MyAdapter adapter;
     SearchView searchView;
 
     private ServiceInterface serviceInterface;
@@ -41,14 +42,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // initViews();
-        send();
+        initViews();
     }//end onCreate
 
+    private void initViews(){
+        recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        loadJSON();
+    }
 
 
     //
-     public void send()
+     public void loadJSON()
 
     {                serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
 
@@ -62,13 +69,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("URL", response.getUrl());
                 Log.d("BODY", response.getBody().toString());
 
-
+                //fetcch object as list and then convert into ArrayList and finaly set into adapter
                 List<Item> items=questions.getItems();
-                // Or like this...
+               data= new ArrayList<Item>(items);
+                adapter = new MyAdapter(data);
+                 recyclerView.setAdapter(adapter);
+
+            /*   // print on log...
+            List<Item> items=questions.getItems();
                 for(int i = 0; i < items.size(); i++) {
                     Log.d("Item data", items.get(i).getTitle());
                     //System.out.println(items.get(i).getLink());
-                }
+                } */
             }
 
             @Override
@@ -78,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-           
+
 
 
     }
