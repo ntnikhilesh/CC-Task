@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 //fetcch object as list and then convert into ArrayList and finaly set into adapter
                 List<Item> items=questions.getItems();
                data= new ArrayList<Item>(items);
-                adapter = new MyAdapter(data);
+                adapter = new MyAdapter(getApplicationContext(),data);
                  recyclerView.setAdapter(adapter);
 
             /*   // print on log...

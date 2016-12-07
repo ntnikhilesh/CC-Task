@@ -7,11 +7,13 @@ package com.example.dell.cc_task.model.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dell.cc_task.R;
@@ -22,7 +24,8 @@ import com.squareup.picasso.Picasso;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private ArrayList<Item> mDataset;
     int position1;
-    String all_tags,mtags="",profile_img;
+    String all_tags,mtags="",profile_img="";
+    private Context context;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -32,6 +35,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView tv_ques;
         public TextView tv_ques_rating;
         public TextView tv_ques_tags;
+        public ImageView iv_profile_image;
 
 
         public ViewHolder(View v) {
@@ -40,6 +44,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             tv_ques = (TextView) v.findViewById(R.id.tv_ques);
             tv_ques_rating = (TextView) v.findViewById(R.id.tv_ques_rating);
             tv_ques_tags = (TextView) v.findViewById(R.id.tv_ques_tag);
+            iv_profile_image=(ImageView)v.findViewById(R.id.iv_profile_img);
+
         }
     }
 /*
@@ -55,7 +61,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }*/
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(ArrayList<Item> myDataset) {
+    //getting context and data from Main Activity
+    public MyAdapter(Context applicationContext, ArrayList<Item> myDataset)
+    {
+        this.context=applicationContext;
         mDataset = myDataset;
     }
 
@@ -79,7 +88,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
             holder.tv_ques.setText(mDataset.get(position).getTitle());
             getTags();
-           // getImage();
+           getImage();
+       // Picasso.with(context).load(mDataset.get(position).getOwner().getProfileImage()).resize(120, 60).into(holder.iv_profile_image);
+
             holder.tv_ques_tags.setText(mtags);
             holder.tv_ques_rating.setText("Rating: " + mDataset.get(position).getScore().toString());
 
@@ -102,7 +113,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void getImage()
     {
         Owner owner=mDataset.get(position1).getOwner();
-        profile_img=owner.getLink();
+        profile_img=owner.getProfileImage();
         if (profile_img!=null) {
 
             Log.d("Profile image" + position1, profile_img);
