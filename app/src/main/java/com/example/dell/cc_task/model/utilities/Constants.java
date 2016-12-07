@@ -6,7 +6,6 @@ package com.example.dell.cc_task.model.utilities;
 
 public class Constants {
 
-    public static final String BASE_URL="http://api.learn2crack.com";
-    public static final String END_POINT="android/jsonandroid";
+    public static final String BASE_URL="https://api.stackexchange.com/2.2/";
 
 }

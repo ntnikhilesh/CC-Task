@@ -1,36 +1,31 @@
 package com.example.dell.cc_task.view;
 
 import android.app.SearchManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.dell.cc_task.R;
-import com.example.dell.cc_task.controller.RequestInterface;
+import com.example.dell.cc_task.model.api.ServiceInterface;
+import com.example.dell.cc_task.model.api.NetworkApiGenerator;
 import com.example.dell.cc_task.model.adapter.DataAdapter;
 import com.example.dell.cc_task.model.pojo.AndroidVersion;
-import com.example.dell.cc_task.model.pojo.JSONResponse;
-import com.example.dell.cc_task.model.utilities.Constants;
+import com.example.dell.cc_task.model.pojo.Item;
+import com.example.dell.cc_task.model.pojo.Questions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,13 +34,57 @@ public class MainActivity extends AppCompatActivity {
     private DataAdapter adapter;
     SearchView searchView;
 
+    private ServiceInterface serviceInterface;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initViews();
+       // initViews();
+        send();
     }//end onCreate
+
+
+
+    //
+     public void send()
+
+    {                serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
+
+
+
+        serviceInterface.getUnansweresandroidquestions("VZhcpZM*4qY7QhxpPc7OYw((","android","stackoverflow.com", new Callback<Questions>() {
+            @Override
+            public void success(Questions questions, Response response)
+            {
+               // Owner owner=new Owner();
+                Log.d("URL", response.getUrl());
+                Log.d("BODY", response.getBody().toString());
+
+
+                List<Item> items=questions.getItems();
+                // Or like this...
+                for(int i = 0; i < items.size(); i++) {
+                    Log.d("Item data", items.get(i).getTitle());
+                    //System.out.println(items.get(i).getLink());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error)
+            {
+                Log.d("API error", error.getMessage());
+            }
+        });
+
+           
+
+
+    }
+
+
+
 
     //inflate menu
 
@@ -60,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -138,50 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
 */
 
-    //initialize recycly view
-    private void initViews(){
-        recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        loadJSON();
-    }
-    private void loadJSON(){
 
-        //initialize Retrofit and carry out network operations
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        //RequestInterface object is created using
-        RequestInterface request = retrofit.create(RequestInterface.class);
-
-        //  To carry out a asyncronous request Call object should be created from RequestInterface object by calling getJSON() method.
-        Call<JSONResponse> call = request.getJSON();
-
-        //The Asyncronous request is executed by calling enqueue() method on the call object.
-        // If the request is success and response is received onResponse() callback method is executed.
-        // The JSONResponse object is obtained by calling body() method on the Response object.
-        // From the JSONResponse object we obtain the AndroidVersion array object.
-        // We convert the AndroidVersion array object to ArrayList.
-        // Finally a new DataAdapter object is created and set to RecyclerView using setAdapter() method.
-        call.enqueue(new Callback<JSONResponse>() {
-            @Override
-            public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
-
-                JSONResponse jsonResponse = response.body();
-                data = new ArrayList<>(Arrays.asList(jsonResponse.getAndroid()));
-                adapter = new DataAdapter(data);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<JSONResponse> call, Throwable t) {
-                Log.d("Error",t.getMessage());
-            }
-        });
-    }
 
 
 }
