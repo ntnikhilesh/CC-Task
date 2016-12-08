@@ -19,12 +19,13 @@ import android.widget.TextView;
 
 import com.example.dell.cc_task.R;
 import com.example.dell.cc_task.controller.RecyclerViewClickListener;
-import com.example.dell.cc_task.model.pojo.Item;
+
+import com.example.dell.cc_task.model.pojo.Items;
 import com.example.dell.cc_task.model.pojo.Owner;
 import com.squareup.picasso.Picasso;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private ArrayList<Item> mDataset;
+    private ArrayList<Items> mDataset;
     int position1;
     String all_tags,mtags="",profile_img="";
     private Context context;
@@ -33,7 +34,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private RecyclerViewClickListener listener;
     // Provide a suitable constructor (depends on the kind of dataset)
     //getting context and data from Main Activity
-    public MyAdapter(Context applicationContext, ArrayList<Item> myDataset, RecyclerViewClickListener listener){
+    public MyAdapter(Context applicationContext, ArrayList<Items> myDataset, RecyclerViewClickListener listener){
         this.context=applicationContext;
         mDataset = myDataset;
         this.listener = listener;
@@ -138,7 +139,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             holder.tv_ques.setText(mDataset.get(position).getTitle());
             getTags();
            getImage();
-       // Picasso.with(context).load(mDataset.get(position).getOwner().getProfileImage()).resize(120, 60).into(holder.iv_profile_image);
+       Picasso.with(context).load(mDataset.get(position).getOwner().getProfile_image()).resize(120, 60).into(holder.iv_profile_image);
 
             holder.tv_ques_tags.setText(mtags);
             holder.tv_ques_rating.setText("Rating: " + mDataset.get(position).getScore().toString());
@@ -149,11 +150,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void getTags()
     {
         mtags="";
-        List<String> tag_list=mDataset.get(position1).getTags();
-        for (int j=0;j<tag_list.size();j++)
+        String[] tag_list=mDataset.get(position1).getTags();
+        for (int j=0;j<tag_list.length;j++)
         {
-            Log.d("Tag hub"+j,tag_list.get(j));
-            all_tags=tag_list.get(j);
+            Log.d("Tag hub"+j,tag_list[j]);
+            all_tags=tag_list[j];
             mtags=mtags.concat("# "+all_tags+" , ");
         }
     }
@@ -162,14 +163,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void getImage()
     {
         Owner owner=mDataset.get(position1).getOwner();
-        profile_img=owner.getProfileImage();
-        if (profile_img!=null) {
+        profile_img=owner.getProfile_image();
+        if (profile_img==null) {
 
-            Log.d("Profile image" + position1, profile_img);
+            Log.d("No image for item " + position1,"");
+
         }
         else
         {
-            Log.d("No image for item " + position1,"");
+            Log.d("Profile image" + position1, profile_img);
         }
 
     }

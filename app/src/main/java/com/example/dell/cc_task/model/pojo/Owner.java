@@ -9,149 +9,96 @@ import java.util.Map;
 
 
 
-public class Owner {
+public class Owner
+{
+    private String display_name;
 
-    private Integer reputation;
-    private Integer userId;
-    private String userType;
-    private Integer acceptRate;
-    private String profileImage;
-    private String displayName;
+    private String accept_rate;
+
+    private String user_type;
+
+    private String profile_image;
+
     private String link;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    /**
-     *
-     * @return
-     * The reputation
-     */
-    public Integer getReputation() {
-        return reputation;
+    private String reputation;
+
+    private String user_id;
+
+    public String getDisplay_name ()
+    {
+        return display_name;
     }
 
-    /**
-     *
-     * @param reputation
-     * The reputation
-     */
-    public void setReputation(Integer reputation) {
-        this.reputation = reputation;
+    public void setDisplay_name (String display_name)
+    {
+        this.display_name = display_name;
     }
 
-    /**
-     *
-     * @return
-     * The userId
-     */
-    public Integer getUserId() {
-        return userId;
+    public String getAccept_rate ()
+    {
+        return accept_rate;
     }
 
-    /**
-     *
-     * @param userId
-     * The user_id
-     */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setAccept_rate (String accept_rate)
+    {
+        this.accept_rate = accept_rate;
     }
 
-    /**
-     *
-     * @return
-     * The userType
-     */
-    public String getUserType() {
-        return userType;
+    public String getUser_type ()
+    {
+        return user_type;
     }
 
-    /**
-     *
-     * @param userType
-     * The user_type
-     */
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setUser_type (String user_type)
+    {
+        this.user_type = user_type;
     }
 
-    /**
-     *
-     * @return
-     * The acceptRate
-     */
-    public Integer getAcceptRate() {
-        return acceptRate;
+    public String getProfile_image ()
+    {
+        return profile_image;
     }
 
-    /**
-     *
-     * @param acceptRate
-     * The accept_rate
-     */
-    public void setAcceptRate(Integer acceptRate) {
-        this.acceptRate = acceptRate;
+    public void setProfile_image (String profile_image)
+    {
+        this.profile_image = profile_image;
     }
 
-    /**
-     *
-     * @return
-     * The profileImage
-     */
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    /**
-     *
-     * @param profileImage
-     * The profile_image
-     */
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    /**
-     *
-     * @return
-     * The displayName
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    /**
-     *
-     * @param displayName
-     * The display_name
-     */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    /**
-     *
-     * @return
-     * The link
-     */
-    public String getLink() {
+    public String getLink ()
+    {
         return link;
     }
 
-    /**
-     *
-     * @param link
-     * The link
-     */
-    public void setLink(String link) {
+    public void setLink (String link)
+    {
         this.link = link;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    public String getReputation ()
+    {
+        return reputation;
     }
 
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    public void setReputation (String reputation)
+    {
+        this.reputation = reputation;
     }
 
+    public String getUser_id ()
+    {
+        return user_id;
+    }
+
+    public void setUser_id (String user_id)
+    {
+        this.user_id = user_id;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ClassPojo [display_name = "+display_name+", accept_rate = "+accept_rate+", user_type = "+user_type+", profile_image = "+profile_image+", link = "+link+", reputation = "+reputation+", user_id = "+user_id+"]";
+    }
 }
+

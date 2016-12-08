@@ -13,16 +13,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.example.dell.cc_task.R;
 import com.example.dell.cc_task.controller.RecyclerViewClickListener;
 import com.example.dell.cc_task.model.adapter.MyAdapter;
 import com.example.dell.cc_task.model.api.NetworkApiGenerator;
 import com.example.dell.cc_task.model.api.ServiceInterface;
-import com.example.dell.cc_task.model.pojo.Item;
+
+import com.example.dell.cc_task.model.pojo.Items;
 import com.example.dell.cc_task.model.pojo.Questions;
+import com.example.dell.cc_task.model.pojo.TagHub;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit.Callback;
@@ -52,12 +56,15 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
 
     // fragment var
     private RecyclerView recyclerView;
-    private ArrayList<Item> data;
+    private ArrayList<Items> data;
     private MyAdapter adapter;
     SearchView searchView;
     FrameLayout fl;
     private RecyclerViewClickListener listener;
-    List<Item> items;
+    Items[] items;
+    String mtag="android";
+    int flag1 =0;
+    int flag2=0;
 
     private ServiceInterface serviceInterface;
 
@@ -90,6 +97,8 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
@@ -97,7 +106,9 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          fl=(FrameLayout) inflater.inflate(R.layout.fragment_first, container, false);
-
+        mtag = getArguments().getString("tag");
+        flag2=Integer.parseInt(getArguments().getString("flag2"));
+        Log.d("user tag and flag : ",mtag+"\n"+flag2);
         initViews();
 
         return fl;
@@ -109,32 +120,44 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        loadJSON();
+        if(flag2==0)
+        {
+            inflate_RecyclerView();
+        }
+        else if (flag2==1)
+        {
+            loadTagJSON();
+        }
+
+
     }
 
 
     //
 
     //
-    public void loadJSON()
+    public void inflate_RecyclerView()
 
     {                serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
 
 
 
-        serviceInterface.getUnansweresandroidquestions("VZhcpZM*4qY7QhxpPc7OYw((","android","stackoverflow.com", new Callback<Questions>() {
+        serviceInterface.getUnansweresandroidquestions("VZhcpZM*4qY7QhxpPc7OYw((",mtag,"stackoverflow.com", new Callback<Questions>() {
             @Override
             public void success(Questions questions, Response response)
             {
+                flag1=0;
                 // Owner owner=new Owner();
                 Log.d("URL", response.getUrl());
                 Log.d("BODY", response.getBody().toString());
 
                 //fetcch object as list and then convert into ArrayList and finaly set into adapter
                 items=questions.getItems();
-                data= new ArrayList<Item>(items);
+
+                ArrayList<Items> arrayList = new ArrayList<Items>(Arrays.asList(items));
+
                 // send listner interface object(this) to adapter
-                adapter = new MyAdapter(getActivity(),data,FirstFragment.this);
+                adapter = new MyAdapter(getActivity(),arrayList,FirstFragment.this);
                 recyclerView.setAdapter(adapter);
 
             /*   // print on log...
@@ -143,6 +166,52 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
                     Log.d("Item data", items.get(i).getTitle());
                     //System.out.println(items.get(i).getLink());
                 } */
+            }
+
+            @Override
+            public void failure(RetrofitError error)
+            {
+                Log.d("API error", error.getMessage());
+            }
+        });
+
+
+
+
+    }
+
+    //loadTagJson
+
+    public void loadTagJSON()
+
+    {                serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
+
+
+
+        serviceInterface.getAllTags("VZhcpZM*4qY7QhxpPc7OYw((","stackoverflow.com", new Callback<TagHub>() {
+
+            @Override
+            public void success(TagHub tagHub, Response response)
+            {
+                items=tagHub.getItems();
+                for(int i = 0; i < items.length; i++) {
+                    Log.d("Tag data", items[i].getName());
+
+                    //if tag exist then list itme will update
+                    if (mtag.equals(items[i].getName()))
+                    {
+                        flag1 =1;
+                        inflate_RecyclerView();
+                    }
+
+                }
+                //if not exist then default tag(android) will update
+                if (flag1 ==0)
+                {
+                    mtag="android";
+                    inflate_RecyclerView();
+                    Toast.makeText(getActivity(),"Tag not exist.....",Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -186,9 +255,9 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
     // handle onClick events of Recyclde view items
     @Override
     public void onRowClicked(int position) {
-        Log.d("Row clicked",items.get(position).getLink());
+        Log.d("Row clicked",items[position].getLink());
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(items.get(position).getLink()));
+        i.setData(Uri.parse(items[position].getLink()));
         getActivity().startActivity(i);
 
 
@@ -197,9 +266,9 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
     @Override
     public void onViewClicked(View v, int position) {
         if(v.getId()==R.id.tv_ques) {
-            Log.d("List item clicked", items.get(position).getLink());
+            Log.d("List item clicked", items[position].getLink());
             Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(items.get(position).getLink()));
+            i.setData(Uri.parse(items[position].getLink()));
             getActivity().startActivity(i);
         }
         if (v.getId()==R.id.button_share)
@@ -207,7 +276,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
             Intent i=new Intent(android.content.Intent.ACTION_SEND);
             i.setType("text/plain");
             i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject test");
-            i.putExtra(android.content.Intent.EXTRA_TEXT, items.get(position).getLink());
+            i.putExtra(android.content.Intent.EXTRA_TEXT, items[position].getLink());
             startActivity(Intent.createChooser(i,"Share via"));
         }
 

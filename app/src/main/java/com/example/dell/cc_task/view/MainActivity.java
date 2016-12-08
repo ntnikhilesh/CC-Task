@@ -24,13 +24,15 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
 
 
      SearchView searchView;
+    String mTag="android";
+    String flag2;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+flag2="0";
         goto_firstfragment();
 
     }//end onCreate
@@ -41,8 +43,13 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         FirstFragment fragment = new FirstFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("tag", mTag);
+        bundle.putString("flag2", flag2);
+// set FirstFragment Arguments
+        fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.addToBackStack("f14");
+        fragmentTransaction.addToBackStack("f1");
         fragmentTransaction.commit();
     }
 
@@ -103,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
 
     //Search operation
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         getMenuInflater().inflate(R.menu.search_menu, menu);
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
@@ -135,7 +142,15 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     // use this method when query submitted
-                    Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
+                         mTag=query;
+
+                    // removes all whitespaces and non-visible characters (e.g., tab, \n).
+                    mTag = mTag.replaceAll("\\s+","");
+                    flag2="1";
+                        goto_firstfragment();
+
+                       // Toast.makeText(MainActivity.this, "Tag not found", Toast.LENGTH_SHORT).show();
+
                     return false;
                 }
 

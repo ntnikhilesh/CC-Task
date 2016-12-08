@@ -1,17 +1,11 @@
 package com.example.dell.cc_task.model.pojo;
 
 /**
- * Created by DELL on 12/7/2016.
+ * Created by DELL on 12/8/2016.
  */
 
-//-----------------------------------com.example.dell.cc_task.model.pojo.Questions.java-----------------------------------
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-public class Questions
+public class TagHub
 {
     private String quota_max;
 
@@ -67,3 +61,4 @@ public class Questions
         return "ClassPojo [quota_max = "+quota_max+", items = "+items+", has_more = "+has_more+", quota_remaining = "+quota_remaining+"]";
     }
 }
+

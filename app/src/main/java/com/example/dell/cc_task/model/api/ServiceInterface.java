@@ -1,6 +1,7 @@
 package com.example.dell.cc_task.model.api;
 
 import com.example.dell.cc_task.model.pojo.Questions;
+import com.example.dell.cc_task.model.pojo.TagHub;
 
 
 import retrofit.Callback;
@@ -14,6 +15,9 @@ public interface ServiceInterface {
 
     @GET("/questions/unanswered")
     void getUnansweresandroidquestions(@Query("api_key") String api_key, @Query("tagged") String tagged, @Query ("site") String site,Callback<Questions> responseCallback);
+
+    @GET("/tags")
+    void getAllTags(@Query("api_key") String api_key, @Query ("site") String site,Callback<TagHub> responseCallback);
 
 
 }
