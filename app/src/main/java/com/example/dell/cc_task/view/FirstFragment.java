@@ -1,6 +1,7 @@
 package com.example.dell.cc_task.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,6 +57,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
     SearchView searchView;
     FrameLayout fl;
     private RecyclerViewClickListener listener;
+    List<Item> items;
 
     private ServiceInterface serviceInterface;
 
@@ -129,10 +131,9 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
                 Log.d("BODY", response.getBody().toString());
 
                 //fetcch object as list and then convert into ArrayList and finaly set into adapter
-                List<Item> items=questions.getItems();
+                items=questions.getItems();
                 data= new ArrayList<Item>(items);
                 // send listner interface object(this) to adapter
-
                 adapter = new MyAdapter(getActivity(),data,FirstFragment.this);
                 recyclerView.setAdapter(adapter);
 
@@ -185,13 +186,20 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
     // handle onClick events of Recyclde view items
     @Override
     public void onRowClicked(int position) {
-        Log.d("Row clicked","");
+        Log.d("Row clicked",items.get(position).getLink());
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(items.get(position).getLink()));
+        getActivity().startActivity(i);
+
 
     }
 
     @Override
     public void onViewClicked(View v, int position) {
-        Log.d("List item clicked","");
+        Log.d("List item clicked",items.get(position).getLink());
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(items.get(position).getLink()));
+        getActivity().startActivity(i);
 
     }
 
