@@ -1,6 +1,8 @@
 package com.example.dell.cc_task.view;
 
 import android.app.SearchManager;
+import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,9 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.dell.cc_task.R;
+import com.example.dell.cc_task.controller.RecyclerViewClickListener;
 import com.example.dell.cc_task.model.adapter.MyAdapter;
 import com.example.dell.cc_task.model.api.ServiceInterface;
 import com.example.dell.cc_task.model.api.NetworkApiGenerator;
@@ -28,7 +32,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FirstFragment.OnFragmentInteractionListener {
 
     private RecyclerView recyclerView;
     private ArrayList<Item> data;
@@ -36,22 +40,36 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView;
 
     private ServiceInterface serviceInterface;
+    private RecyclerViewClickListener listener;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initViews();
+
+        goto_firstfragment();
+       // initViews();
     }//end onCreate
 
+    //go to first fragment
+    public void goto_firstfragment()
+    {
+        android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        FirstFragment fragment = new FirstFragment();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack("f14");
+        fragmentTransaction.commit();
+    }
+/*
     private void initViews(){
         recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         loadJSON();
-    }
+    }*/
 
 
     //
@@ -72,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 //fetcch object as list and then convert into ArrayList and finaly set into adapter
                 List<Item> items=questions.getItems();
                data= new ArrayList<Item>(items);
-                adapter = new MyAdapter(getApplicationContext(),data);
+                // send listner interface object(this) to adapter
+
+                adapter = new MyAdapter(getApplicationContext(),data,listener);
                  recyclerView.setAdapter(adapter);
 
             /*   // print on log...
@@ -131,6 +151,30 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+    //handling click events of Recycle view
+/*
+    @Override
+    public void onRowClicked(int position) {
+        Toast.makeText(this, "Row clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onViewClicked(View v, int position) {
+        if(v.getId() == R.id.tv_ques){
+            Toast.makeText(this, "My Ques", Toast.LENGTH_SHORT).show();
+            // Do your stuff here
+        }
+
+    }
+*/
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+
+
 
 /*
     //Search operation

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dell.cc_task.R;
+import com.example.dell.cc_task.controller.RecyclerViewClickListener;
 import com.example.dell.cc_task.model.pojo.Item;
 import com.example.dell.cc_task.model.pojo.Owner;
 import com.squareup.picasso.Picasso;
@@ -26,6 +27,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     int position1;
     String all_tags,mtags="",profile_img="";
     private Context context;
+
+//handle click event by interface
+    private RecyclerViewClickListener listener;
+    // Provide a suitable constructor (depends on the kind of dataset)
+    //getting context and data from Main Activity
+    public MyAdapter(Context applicationContext, ArrayList<Item> myDataset, RecyclerViewClickListener listener){
+        this.context=applicationContext;
+        mDataset = myDataset;
+        this.listener = listener;
+
+    }
+
+
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -38,13 +52,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public ImageView iv_profile_image;
 
 
-        public ViewHolder(View v) {
+        public ViewHolder(View itemView,final RecyclerViewClickListener listener) {
 
-            super(v);
-            tv_ques = (TextView) v.findViewById(R.id.tv_ques);
-            tv_ques_rating = (TextView) v.findViewById(R.id.tv_ques_rating);
-            tv_ques_tags = (TextView) v.findViewById(R.id.tv_ques_tag);
-            iv_profile_image=(ImageView)v.findViewById(R.id.iv_profile_img);
+            super(itemView);
+            tv_ques = (TextView) itemView.findViewById(R.id.tv_ques);
+            tv_ques_rating = (TextView) itemView.findViewById(R.id.tv_ques_rating);
+            tv_ques_tags = (TextView) itemView.findViewById(R.id.tv_ques_tag);
+            iv_profile_image=(ImageView)itemView.findViewById(R.id.iv_profile_img);
+
+            // handle click event
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("row clicked","");
+                    if(listener != null)
+                        listener.onRowClicked(getAdapterPosition());
+                }
+            });
+
+            tv_ques.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Ques","");
+                    if(listener != null)
+                        listener.onViewClicked(v, getAdapterPosition());
+                }
+            });
 
         }
     }
@@ -60,22 +94,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         notifyItemRemoved(position);
     }*/
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    //getting context and data from Main Activity
-    public MyAdapter(Context applicationContext, ArrayList<Item> myDataset)
+
+   /* public MyAdapter(Context applicationContext, ArrayList<Item> myDataset)
     {
         this.context=applicationContext;
         mDataset = myDataset;
     }
-
+*/
     // Create new views (invoked by the layout manager)
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ques_row, parent, false);
+
+        //set listner
         // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v);
+        ViewHolder vh = new ViewHolder(v,listener);
         return vh;
     }
 
