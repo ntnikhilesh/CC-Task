@@ -133,7 +133,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
                 data= new ArrayList<Item>(items);
                 // send listner interface object(this) to adapter
 
-                adapter = new MyAdapter(getActivity(),data,listener);
+                adapter = new MyAdapter(getActivity(),data,FirstFragment.this);
                 recyclerView.setAdapter(adapter);
 
             /*   // print on log...
@@ -181,13 +181,17 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
         mListener = null;
     }
 
+
+    // handle onClick events of Recyclde view items
     @Override
     public void onRowClicked(int position) {
+        Log.d("Row clicked","");
 
     }
 
     @Override
     public void onViewClicked(View v, int position) {
+        Log.d("List item clicked","");
 
     }
 
