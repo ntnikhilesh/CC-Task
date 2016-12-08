@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,6 +51,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView tv_ques_rating;
         public TextView tv_ques_tags;
         public ImageView iv_profile_image;
+        public Button button_like;
+        public Button button_share;
 
 
         public ViewHolder(View itemView,final RecyclerViewClickListener listener) {
@@ -59,6 +62,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             tv_ques_rating = (TextView) itemView.findViewById(R.id.tv_ques_rating);
             tv_ques_tags = (TextView) itemView.findViewById(R.id.tv_ques_tag);
             iv_profile_image=(ImageView)itemView.findViewById(R.id.iv_profile_img);
+            button_like=(Button) itemView.findViewById(R.id.button_like);
+            button_share=(Button) itemView.findViewById(R.id.button_share);
 
             // handle click event
 
@@ -75,6 +80,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Log.d("Ques","");
+                    if(listener != null)
+                        listener.onViewClicked(v, getAdapterPosition());
+                }
+            });
+
+            button_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Share clicked","");
                     if(listener != null)
                         listener.onViewClicked(v, getAdapterPosition());
                 }

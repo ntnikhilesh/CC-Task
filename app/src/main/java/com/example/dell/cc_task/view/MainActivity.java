@@ -20,7 +20,7 @@ import com.example.dell.cc_task.R;
 public class MainActivity extends AppCompatActivity implements FirstFragment.OnFragmentInteractionListener {
 
 
-
+     SearchView searchView;
 
 
     @Override
@@ -54,11 +54,15 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         inflater.inflate(R.menu.menu, menu);
         inflater.inflate(R.menu.search_menu, menu);
         // Retrieve the SearchView and plug it into SearchManager
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        
+
         return true;
     }
+
 
 
 
@@ -80,22 +84,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         return true;
     }
 
-    //handling click events of Recycle view
-/*
-    @Override
-    public void onRowClicked(int position) {
-        Toast.makeText(this, "Row clicked", Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onViewClicked(View v, int position) {
-        if(v.getId() == R.id.tv_ques){
-            Toast.makeText(this, "My Ques", Toast.LENGTH_SHORT).show();
-            // Do your stuff here
-        }
-
-    }
-*/
     @Override
     public void onFragmentInteraction(Uri uri) {
 

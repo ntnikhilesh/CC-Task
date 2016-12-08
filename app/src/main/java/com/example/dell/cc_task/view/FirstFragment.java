@@ -196,10 +196,20 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
 
     @Override
     public void onViewClicked(View v, int position) {
-        Log.d("List item clicked",items.get(position).getLink());
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(items.get(position).getLink()));
-        getActivity().startActivity(i);
+        if(v.getId()==R.id.tv_ques) {
+            Log.d("List item clicked", items.get(position).getLink());
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(items.get(position).getLink()));
+            getActivity().startActivity(i);
+        }
+        if (v.getId()==R.id.button_share)
+        {
+            Intent i=new Intent(android.content.Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject test");
+            i.putExtra(android.content.Intent.EXTRA_TEXT, items.get(position).getLink());
+            startActivity(Intent.createChooser(i,"Share via"));
+        }
 
     }
 
