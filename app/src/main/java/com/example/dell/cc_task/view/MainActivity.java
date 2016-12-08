@@ -3,6 +3,7 @@ package com.example.dell.cc_task.view;
 import android.app.SearchManager;
 import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.dell.cc_task.R;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
 
 
 
-
+/*
     //inflate menu
 
     @Override
@@ -58,12 +61,12 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-        
+
 
         return true;
     }
 
-
+*/
 
 
 
@@ -75,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
 // action with ID action_settings was selected
             case R.id.action_settings:
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            case R.id.action_search:
+                Toast.makeText(this, "Enter tag name", Toast.LENGTH_SHORT)
                         .show();
                 break;
             default:
@@ -93,11 +100,13 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
 
 
 
-/*
+
     //Search operation
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         final MenuItem searchItem = menu.findItem(R.id.action_search);
 
         if (searchItem != null) {
@@ -113,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
             searchView.setOnSearchClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "open", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(MainActivity.this, "open", Toast.LENGTH_SHORT).show();
                     //some operation
                 }
             });
@@ -153,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         }
     }
 
-*/
+
 
 
 
