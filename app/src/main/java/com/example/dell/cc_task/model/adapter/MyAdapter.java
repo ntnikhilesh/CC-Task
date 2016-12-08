@@ -66,6 +66,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             button_like=(Button) itemView.findViewById(R.id.button_like);
             button_share=(Button) itemView.findViewById(R.id.button_share);
 
+
             // handle click event
 
             itemView.setOnClickListener(new View.OnClickListener() {

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.dell.cc_task.R;
 import com.example.dell.cc_task.controller.RecyclerViewClickListener;
+import com.example.dell.cc_task.model.adapter.EndlessRecyclerOnScrollListener;
 import com.example.dell.cc_task.model.adapter.MyAdapter;
 import com.example.dell.cc_task.model.api.NetworkApiGenerator;
 import com.example.dell.cc_task.model.api.ServiceInterface;
@@ -66,6 +67,11 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
     int flag1 =0;
     int flag2=0;
     String order,sort;
+
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+
+
 
     private ServiceInterface serviceInterface;
 
@@ -122,9 +128,25 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
     //initialize views
     private void initViews(){
         recyclerView = (RecyclerView)fl.findViewById(R.id.card_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+       // recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                // do something...
+                if(flag2==0)
+                {
+                    inflate_RecyclerView();
+                }
+                else if (flag2==1)
+                {
+                    loadTagJSON();
+                }
+            }
+        });
+
         if(flag2==0)
         {
             inflate_RecyclerView();
@@ -133,6 +155,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
         {
             loadTagJSON();
         }
+
 
 
     }

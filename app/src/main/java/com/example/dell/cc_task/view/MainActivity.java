@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
             searchView.setIconified(true);
             //findViewById(R.id.default_title).setVisibility(View.VISIBLE);
         } else {
+            finish();
             super.onBackPressed();
         }
     }
