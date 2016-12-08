@@ -3,7 +3,7 @@
 
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_activity"
         android:title="Activity">
     </item>
 
@@ -24,7 +24,12 @@
 
     <item
         android:id="@+id/action_asc"
-        android:title="Asc / Desc Order">
+        android:title="Asc Order">
+    </item>
+
+    <item
+        android:id="@+id/action_desc"
+        android:title="Desc Order">
     </item>
 
 </menu>

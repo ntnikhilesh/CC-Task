@@ -83,13 +83,14 @@ flag2="0";
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 // action with ID action_settings was selected
-            case R.id.action_settings:
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+            case R.id.action_activity:
+                Toast.makeText(this, "coming soon... ", Toast.LENGTH_SHORT)
                         .show();
                 break;
-            case R.id.action_search:
-                Toast.makeText(this, "Enter tag name", Toast.LENGTH_SHORT)
+            case R.id.action_creation:
+                Toast.makeText(this, "Sorted item on Cration", Toast.LENGTH_SHORT)
                         .show();
+                
                 break;
             default:
                 break;

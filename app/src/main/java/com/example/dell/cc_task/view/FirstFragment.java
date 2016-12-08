@@ -65,6 +65,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
     String mtag="android";
     int flag1 =0;
     int flag2=0;
+    String order,sort;
 
     private ServiceInterface serviceInterface;
 
@@ -107,6 +108,8 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
         // Inflate the layout for this fragment
          fl=(FrameLayout) inflater.inflate(R.layout.fragment_first, container, false);
         mtag = getArguments().getString("tag");
+        order="desc";
+        sort="votes";
         flag2=Integer.parseInt(getArguments().getString("flag2"));
         Log.d("user tag and flag : ",mtag+"\n"+flag2);
         initViews();
@@ -142,7 +145,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
 
 
 
-        serviceInterface.getUnansweresandroidquestions("VZhcpZM*4qY7QhxpPc7OYw((",mtag,"stackoverflow.com", new Callback<Questions>() {
+        serviceInterface.getUnansweresandroidquestions("VZhcpZM*4qY7QhxpPc7OYw((","stackoverflow.com",mtag,order,sort, new Callback<Questions>() {
             @Override
             public void success(Questions questions, Response response)
             {
@@ -151,13 +154,16 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
                 Log.d("URL", response.getUrl());
                 Log.d("BODY", response.getBody().toString());
 
-                //fetcch object as list and then convert into ArrayList and finaly set into adapter
+                //fetcch array objects
                 items=questions.getItems();
 
+                //convert Array into ArrayList
                 ArrayList<Items> arrayList = new ArrayList<Items>(Arrays.asList(items));
 
-                // send listner interface object(this) to adapter
+                // send listner interface object(this) to adapter along with context and listner
                 adapter = new MyAdapter(getActivity(),arrayList,FirstFragment.this);
+
+                // finaly set into adapter
                 recyclerView.setAdapter(adapter);
 
             /*   // print on log...

@@ -14,7 +14,7 @@ import retrofit.http.Query;
 public interface ServiceInterface {
 
     @GET("/questions/unanswered")
-    void getUnansweresandroidquestions(@Query("api_key") String api_key, @Query("tagged") String tagged, @Query ("site") String site,Callback<Questions> responseCallback);
+    void getUnansweresandroidquestions(@Query("api_key") String api_key, @Query ("site") String site,@Query("tagged") String tagged,@Query("order") String order,@Query("sort") String sort,Callback<Questions> responseCallback);
 
     @GET("/tags")
     void getAllTags(@Query("api_key") String api_key, @Query ("site") String site,Callback<TagHub> responseCallback);
