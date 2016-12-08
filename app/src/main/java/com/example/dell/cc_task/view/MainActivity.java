@@ -26,13 +26,16 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
      SearchView searchView;
     String mTag="android";
     String flag2;
+    String order,sort;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-flag2="0";
+        flag2="0";
+        order="desc";
+        sort="votes";
         goto_firstfragment();
 
     }//end onCreate
@@ -46,6 +49,8 @@ flag2="0";
         Bundle bundle = new Bundle();
         bundle.putString("tag", mTag);
         bundle.putString("flag2", flag2);
+        bundle.putString("sort", sort);
+        bundle.putString("order", order);
 // set FirstFragment Arguments
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -76,7 +81,7 @@ flag2="0";
 */
 
 
-
+// Sort item on different parameters
 
 
     @Override
@@ -84,13 +89,38 @@ flag2="0";
         switch (item.getItemId()) {
 // action with ID action_settings was selected
             case R.id.action_activity:
-                Toast.makeText(this, "coming soon... ", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Sorted item on Activity ", Toast.LENGTH_SHORT)
                         .show();
+                sort="activity";
+                goto_firstfragment();
                 break;
             case R.id.action_creation:
                 Toast.makeText(this, "Sorted item on Cration", Toast.LENGTH_SHORT)
                         .show();
-                
+                sort="creation";
+                goto_firstfragment();
+
+
+                break;
+            case R.id.action_votes:
+                Toast.makeText(this, "Sorted item on Votes ", Toast.LENGTH_SHORT)
+                        .show();
+                sort="votes";
+                goto_firstfragment();
+                break;
+
+            case R.id.action_asc:
+                Toast.makeText(this, "Sorted item on Asc", Toast.LENGTH_SHORT)
+                        .show();
+                order="asc";
+                goto_firstfragment();
+                break;
+            case R.id.action_desc:
+                Toast.makeText(this, "Sorted item on Desc", Toast.LENGTH_SHORT)
+                        .show();
+                order="desc";
+                goto_firstfragment();
+
                 break;
             default:
                 break;

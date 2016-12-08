@@ -111,7 +111,9 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
         order="desc";
         sort="votes";
         flag2=Integer.parseInt(getArguments().getString("flag2"));
-        Log.d("user tag and flag : ",mtag+"\n"+flag2);
+        order = getArguments().getString("order");
+        sort = getArguments().getString("sort");
+        Log.d("Value from MC ",mtag+"\n"+flag2+"\n"+order+"\n"+sort);
         initViews();
 
         return fl;

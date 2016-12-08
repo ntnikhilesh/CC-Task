@@ -17,10 +17,6 @@
         android:title="Votes">
     </item>
 
-    <item
-        android:id="@+id/action_relevance"
-        android:title="Relevance">
-    </item>
 
     <item
         android:id="@+id/action_asc"
