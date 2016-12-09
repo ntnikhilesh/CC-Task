@@ -32,5 +32,10 @@
         android:title="Fav Question">
     </item>
 
+    <item
+        android:id="@+id/action_HIT"
+        android:title="Hit API">
+    </item>
+
 </menu>
 

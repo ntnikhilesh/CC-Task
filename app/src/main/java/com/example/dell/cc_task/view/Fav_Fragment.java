@@ -17,11 +17,10 @@ import android.widget.Toast;
 
 import com.example.dell.cc_task.R;
 import com.example.dell.cc_task.controller.RecyclerViewClickListener;
-import com.example.dell.cc_task.model.adapter.EndlessRecyclerOnScrollListener;
 import com.example.dell.cc_task.model.adapter.FavQuesAdapter;
-import com.example.dell.cc_task.model.adapter.MyAdapter;
 import com.example.dell.cc_task.model.api.NetworkApiGenerator;
 import com.example.dell.cc_task.model.api.ServiceInterface;
+import com.example.dell.cc_task.model.pojo.FavQuestions;
 import com.example.dell.cc_task.model.pojo.Items;
 import com.example.dell.cc_task.model.pojo.Questions;
 
@@ -58,6 +57,7 @@ public class Fav_Fragment extends Fragment implements RecyclerViewClickListener 
     private ServiceInterface serviceInterface;
     Items[] items;
     private FavQuesAdapter quesAdapter;
+    private Integer user_id[];
 
 
     public Fav_Fragment() {
@@ -131,12 +131,82 @@ public class Fav_Fragment extends Fragment implements RecyclerViewClickListener 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-
+//inflate favorite Questions
+        inflate_FavQues();
 //Hit API
-        inflate_RecyclerView();
+       // inflate_RecyclerView();
 
     }
 
+
+    //In fav ques
+
+    public void inflate_FavQues()
+
+    {
+        user_id =new Integer[20];
+        //Retreive data from Shared preference
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        //getting Total like form Main Activity
+        String totoal_like =sharedPreferences.getString("total_like","0");
+        Log.d("FAvFrag total like =",totoal_like);
+        //  SharedPreferences pref = getActivity().getPreferences(0);
+        for(int i=0;i<Integer.parseInt(totoal_like);i++)
+        {
+            //use i value as Key ;
+            int mid=i+1;
+            //convert i to String as Key for SP
+            String sid= String.valueOf(mid);
+            //get data from SP for key "sid"
+             user_id[i] = Integer.valueOf(sharedPreferences.getString(sid, "default link"));
+            Log.d("Fkey and  d user id =",mid+""+ user_id);
+
+
+        }
+
+
+
+
+        serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
+
+       serviceInterface.getFavQues(user_id[0],user_id[1],user_id[2],user_id[3],user_id[4],user_id[5],user_id[6],user_id[7],user_id[8],user_id[9],user_id[10],user_id[11],"VZhcpZM*4qY7QhxpPc7OYw((","stackoverflow.com","android","desc","votes", new Callback<FavQuestions>() {
+
+            @Override
+            public void success(FavQuestions favQuestions, Response response) {
+                Log.d("Success FavQues","");
+                Toast.makeText(getActivity(),"from success",Toast.LENGTH_LONG).show();
+                //fetcch array objects
+                items=favQuestions.getItems();
+                //print values in Log
+                for(int i = 0; i < items.length; i++) {
+                    Log.d("Item data"+i, items[i].getTitle());
+                    Toast.makeText(getActivity(),items[i].getTitle(),Toast.LENGTH_LONG).show();
+                    //System.out.println(items.get(i).getLink());
+                }
+
+                //convert Array into ArrayList
+                ArrayList<Items> arrayList = new ArrayList<Items>(Arrays.asList(items));
+
+                // send listner interface object(this) to adapter along with context and listner
+                quesAdapter = new FavQuesAdapter(getActivity(),arrayList,Fav_Fragment.this);
+
+                // finaly set into adapter
+                recyclerView.setAdapter(quesAdapter);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error)
+            {
+                Log.d("FQAPI error", error.getMessage());
+            }
+        });
+
+
+
+
+
+    }
 
     //Hit API an inflte Recycler View
 

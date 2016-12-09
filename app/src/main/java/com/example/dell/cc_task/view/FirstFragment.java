@@ -331,7 +331,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
             Log.d("Like button clicked", items[position].getLink());
             total_like++;//will use total like as total like and key for shared pref of that id
             String mtotal_like= Integer.toString(total_like);
-            String uid=items[position].getOwner().getUser_id();
+            String uid=items[position].getQuestion_id();
             Log.d("total like d id =", total_like +""+uid);
 
             //Save user ID in shared preference

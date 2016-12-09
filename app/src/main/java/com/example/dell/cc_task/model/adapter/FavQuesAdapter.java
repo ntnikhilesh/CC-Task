@@ -153,57 +153,23 @@ public class FavQuesAdapter extends RecyclerView.Adapter<FavQuesAdapter.ViewHold
 
         //String totoal_like = getArguments().getString("total_like");
 
-        //Retreive data from Shared preference
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        //getting Total like form Main Activity
-        String totoal_like =sharedPreferences.getString("total_like","0");
-        Log.d("FAdapter total like =",totoal_like);
-      //  SharedPreferences pref = getActivity().getPreferences(0);
-        for(int i=0;i<Integer.parseInt(totoal_like);i++)
-        {
-            //use i value as Key ;
-            int mid=i+1;
-            //convert i to String as Key for SP
-            String sid= String.valueOf(mid);
-            //get data from SP for key "sid"
-            String user_id = sharedPreferences.getString(sid, "default link");
-            Log.d("Fkey and  d user id =",mid+""+user_id);
-
-            if(user_id.equals(mDataset.get(position).getOwner().getUser_id()))
-            {
-
-                //Set Values to List Items
-                holder.tv_ques.setText(mDataset.get(position).getTitle());
-                getTags();
-                getImage();
-                Picasso.with(context).load(mDataset.get(position).getOwner().getProfile_image()).resize(120, 60).into(holder.iv_profile_image);
-
-                holder.tv_ques_tags.setText(mtags);
-                holder.tv_ques_rating.setText("Rating: " + mDataset.get(position).getScore().toString());
-
-                //Set flag after adding item in list
-                item_flag=1;
 
 
-            }
 
-        }
-        if (item_flag==0)
-        {
-           // holder.itemView.setVisibility(View.GONE);
-           // removeAt(position);
-        }
+        //Set Values to List Items
+        holder.tv_ques.setText(mDataset.get(position).getTitle());
+        getTags();
+        getImage();
+        Picasso.with(context).load(mDataset.get(position).getOwner().getProfile_image()).resize(120, 60).into(holder.iv_profile_image);
+
+        holder.tv_ques_tags.setText(mtags);
+        holder.tv_ques_rating.setText("Rating: " + mDataset.get(position).getScore().toString());
+
 
 
     }
 
-    //Delete extra rows
-    public void removeAt(int position) {
 
-        mDataset.remove(position);
-       notifyItemRemoved(position);
-        notifyItemRangeChanged(position, mDataset.size());
-    }
     //fetch tags of individual ques
     public void getTags()
     {

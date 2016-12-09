@@ -14,6 +14,44 @@ import java.util.Map;
 public class Items
 {
     // unanswered API data
+  /*  private String creation_date;
+
+    private String[] tags;
+
+    private String title;
+
+    private String link;
+
+    private String last_edit_date;
+
+    private String score;
+
+    private String answer_count;
+
+    private Owner owner;
+
+    private String last_activity_date;
+
+    private String question_id;
+
+    private String view_count;
+
+    private String is_answered; */
+
+    //Tag API data
+
+    private String has_synonyms;
+
+    private String is_required;
+
+    private String count;
+
+    private String name;
+
+    private String is_moderator_only;
+
+    //FAV Qoues API
+
     private String creation_date;
 
     private String[] tags;
@@ -38,17 +76,7 @@ public class Items
 
     private String is_answered;
 
-    //Tag API data
 
-    private String has_synonyms;
-
-    private String is_required;
-
-    private String count;
-
-    private String name;
-
-    private String is_moderator_only;
 
     public String getHas_synonyms ()
     {
