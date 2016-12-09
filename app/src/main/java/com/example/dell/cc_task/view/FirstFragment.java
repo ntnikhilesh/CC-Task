@@ -36,14 +36,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FirstFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FirstFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class FirstFragment extends Fragment implements RecyclerViewClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,14 +77,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FirstFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static FirstFragment newInstance(String param1, String param2) {
         FirstFragment fragment = new FirstFragment();
@@ -118,6 +104,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          fl=(FrameLayout) inflater.inflate(R.layout.fragment_first, container, false);
+        //get arguments from Bundle
         mtag = getArguments().getString("tag");
         order="desc";
         sort="votes";
@@ -126,6 +113,8 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
         sort = getArguments().getString("sort");
         total_like =0;
         Log.d("Value from MC ",mtag+"\n"+flag2+"\n"+order+"\n"+sort);
+
+        //Ininitalze view of Recycle View
         initViews();
 
         return fl;
@@ -138,6 +127,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        //Handle pagination
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int current_page) {
@@ -169,21 +159,18 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
 
     //
 
-    //
+    //inflate Recycle view items
     public void inflate_RecyclerView()
 
-    {                serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
-
-
+    {
+        serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
 
         serviceInterface.getUnansweresandroidquestions("VZhcpZM*4qY7QhxpPc7OYw((","stackoverflow.com",mtag,order,sort, new Callback<Questions>() {
             @Override
             public void success(Questions questions, Response response)
             {
                 flag1=0;
-                // Owner owner=new Owner();
-                Log.d("URL", response.getUrl());
-                Log.d("BODY", response.getBody().toString());
+
 
                 //fetcch array objects
                 items=questions.getItems();
@@ -197,12 +184,6 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
                 // finaly set into adapter
                 recyclerView.setAdapter(adapter);
 
-            /*   // print on log...
-            List<Item> items=questions.getItems();
-                for(int i = 0; i < items.size(); i++) {
-                    Log.d("Item data", items.get(i).getTitle());
-                    //System.out.println(items.get(i).getLink());
-                } */
             }
 
             @Override
@@ -217,13 +198,12 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
 
     }
 
-    //loadTagJson
+    //Update Recycle View on the basis of short parameter(Activity , Creation , Votes , Asc , Desc )
 
     public void loadTagJSON()
 
-    {                serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
-
-
+    {
+        serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
 
         serviceInterface.getAllTags("VZhcpZM*4qY7QhxpPc7OYw((","stackoverflow.com", new Callback<TagHub>() {
 
@@ -242,12 +222,12 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
                     }
 
                 }
-                //if not exist then default tag(android) will update
+                //if tag does not exist then default tag(android) will use
                 if (flag1 ==0)
                 {
                     mtag="android";
                     inflate_RecyclerView();
-                    Toast.makeText(getActivity(),"Tag not exist.....",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getActivity(),"Tag does not exist.....",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -264,12 +244,8 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -343,35 +319,15 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
             edt.commit();
 
             Log.d("total sp =", String.valueOf(pref.getAll().size()));
-//Sending total count to Main Activity
+            //Sending total count to Main Activity
             someEventListener1.someEvent(total_like);
 
-        /*   //Toast.makeText(getActivity(),"name = "+id,Toast.LENGTH_LONG).show();
-            SQLiteDatabase mydatabase = getActivity().openOrCreateDatabase("ntdatabase",0,null);
-            mydatabase.execSQL("CREATE TABLE IF NOT EXISTS table3(UID VARCHAR);");
-            String insert_info = "INSERT OR REPLACE INTO table3(UID) VALUES (?)";
-            SQLiteStatement stmt = mydatabase.compileStatement(insert_info);
-           // stmt.bindString(1,id);
-            stmt.execute();
-           Cursor resultSet = mydatabase.rawQuery("Select * from table3",null);
-            resultSet.moveToFirst();
-            mydatabase.close();
-           // String uid = resultSet.getString(0);
-            Toast.makeText(getActivity(),"name = "+uid,Toast.LENGTH_LONG).show(); */
+
         }
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

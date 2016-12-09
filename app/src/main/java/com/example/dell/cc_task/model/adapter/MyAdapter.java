@@ -107,25 +107,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         }
     }
-/*
-   public void add(int position, String item) {
-        mDataset.add(position, item);
-        notifyItemInserted(position);
-    } */
-/*
-    public void remove(String item) {
-        int position = mDataset.indexOf(item);
-        mDataset.remove(position);
-        notifyItemRemoved(position);
-    }*/
 
-
-   /* public MyAdapter(Context applicationContext, ArrayList<Item> myDataset)
-    {
-        this.context=applicationContext;
-        mDataset = myDataset;
-    }
-*/
     // Create new views (invoked by the layout manager)
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,

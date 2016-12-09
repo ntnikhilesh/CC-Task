@@ -124,14 +124,6 @@ public class FavQuesAdapter extends RecyclerView.Adapter<FavQuesAdapter.ViewHold
         position1=position;
 
 
-        //get total like from bundle
-
-
-        //String totoal_like = getArguments().getString("total_like");
-
-
-
-
         //Set Values to List Items
         holder.tv_ques.setText(mDataset.get(position).getTitle());
         getTags();

@@ -49,39 +49,21 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         FirstFragment fragment = new FirstFragment();
+        //Store data in budle and pass to FirtFragment
         Bundle bundle = new Bundle();
         bundle.putString("tag", mTag);
         bundle.putString("flag2", flag2);
         bundle.putString("sort", sort);
         bundle.putString("order", order);
-// set FirstFragment Arguments
+        // set FirstFragment Arguments
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.addToBackStack("f1");
         fragmentTransaction.commit();
-    }
+    }//end goto_firstfragment
 
 
 
-/*
-    //inflate menu
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        inflater.inflate(R.menu.search_menu, menu);
-        // Retrieve the SearchView and plug it into SearchManager
-         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
-
-
-        return true;
-    }
-
-*/
 
 
 // Sort item on different parameters
@@ -140,9 +122,9 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         }
 
         return true;
-    }
+    }// end onOptionItemSelecte
 
-
+//goto favorite fragment to see favorite qurestions
     public void goto_favfragment()
     {
         android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
@@ -153,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         //send total like by using bundle
         bundle.putString("total_like", String.valueOf(mtotal_like));
 
-// set FirstFragment Arguments
+        // set FirstFragment Arguments
         fragment.setArguments(bundle);
 
         fragmentTransaction.replace(R.id.fragment_container, fragment);
