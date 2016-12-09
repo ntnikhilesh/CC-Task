@@ -20,13 +20,14 @@ import android.widget.Toast;
 import com.example.dell.cc_task.R;
 
 
-public class MainActivity extends AppCompatActivity implements FirstFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements FirstFragment.OnFragmentInteractionListener ,Fav_Fragment.OnFragmentInteractionListener ,FirstFragment.onSomeEventListener1 {
 
 
      SearchView searchView;
     String mTag="android";
     String flag2;
     String order,sort;
+    int mtotal_like;
 
 
     @Override
@@ -122,6 +123,14 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
                 goto_firstfragment();
 
                 break;
+
+            case R.id.action_fav:
+                Toast.makeText(this, "Your favorite ques", Toast.LENGTH_SHORT)
+                        .show();
+                order="desc";
+                goto_favfragment();
+
+                break;
             default:
                 break;
         }
@@ -129,6 +138,25 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         return true;
     }
 
+
+    public void goto_favfragment()
+    {
+        android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        Fav_Fragment fragment = new Fav_Fragment();
+
+        Bundle bundle = new Bundle();
+        //send total like by using bundle
+        bundle.putString("total_like", String.valueOf(mtotal_like));
+
+// set FirstFragment Arguments
+        fragment.setArguments(bundle);
+
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack("f2");
+        fragmentTransaction.commit();
+
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -203,15 +231,17 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
         if (!searchView.isIconified()) {
             searchView.setIconified(true);
             //findViewById(R.id.default_title).setVisibility(View.VISIBLE);
-        } else {
-            finish();
+        } if(getFragmentManager().getBackStackEntryCount() == 0) {
             super.onBackPressed();
+        }
+        else {
+            getFragmentManager().popBackStack();
         }
     }
 
-
-
-
-
-
+//recive total like from First Fragment
+    @Override
+    public void someEvent(int total_like) {
+        mtotal_like=total_like;
+    }
 }

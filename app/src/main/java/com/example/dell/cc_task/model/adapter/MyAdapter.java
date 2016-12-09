@@ -96,6 +96,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 }
             });
 
+            button_like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Share clicked","");
+                    if(listener != null)
+                        listener.onViewClicked(v, getAdapterPosition());
+                }
+            });
+
         }
     }
 /*

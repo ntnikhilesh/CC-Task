@@ -2,9 +2,11 @@ package com.example.dell.cc_task.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -28,7 +30,6 @@ import com.example.dell.cc_task.model.pojo.TagHub;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -67,9 +68,12 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
     int flag1 =0;
     int flag2=0;
     String order,sort;
+    static int total_like;
 
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
+
+    onSomeEventListener1 someEventListener1;
 
 
 
@@ -119,6 +123,7 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
         flag2=Integer.parseInt(getArguments().getString("flag2"));
         order = getArguments().getString("order");
         sort = getArguments().getString("sort");
+        total_like =0;
         Log.d("Value from MC ",mtag+"\n"+flag2+"\n"+order+"\n"+sort);
         initViews();
 
@@ -274,6 +279,16 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        try {
+           someEventListener1 = (onSomeEventListener1) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement onSomeEventListener1");
+        }
+    }
+
+    //Interface to send data to Main Activity
+    public interface onSomeEventListener1 {
+        public void someEvent(int total_like);
     }
 
     @Override
@@ -309,6 +324,37 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
             i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject test");
             i.putExtra(android.content.Intent.EXTRA_TEXT, items[position].getLink());
             startActivity(Intent.createChooser(i,"Share via"));
+        }
+        if (v.getId()==R.id.button_like)
+        {
+            Log.d("Like button clicked", items[position].getLink());
+            total_like++;//will use total like as total like and key for shared pref of that id
+            String mtotal_like= Integer.toString(total_like);
+            String uid=items[position].getOwner().getUser_id();
+            Log.d("total like d id =", total_like +""+uid);
+
+            //Save user ID in shared preference
+            SharedPreferences pref = getActivity().getPreferences(0);
+            SharedPreferences.Editor edt = pref.edit();
+            edt.putString(mtotal_like, uid);
+            edt.commit();
+
+            Log.d("total sp =", String.valueOf(pref.getAll().size()));
+//Sending total count to Main Activity
+            someEventListener1.someEvent(total_like);
+
+        /*   //Toast.makeText(getActivity(),"name = "+id,Toast.LENGTH_LONG).show();
+            SQLiteDatabase mydatabase = getActivity().openOrCreateDatabase("ntdatabase",0,null);
+            mydatabase.execSQL("CREATE TABLE IF NOT EXISTS table3(UID VARCHAR);");
+            String insert_info = "INSERT OR REPLACE INTO table3(UID) VALUES (?)";
+            SQLiteStatement stmt = mydatabase.compileStatement(insert_info);
+           // stmt.bindString(1,id);
+            stmt.execute();
+           Cursor resultSet = mydatabase.rawQuery("Select * from table3",null);
+            resultSet.moveToFirst();
+            mydatabase.close();
+           // String uid = resultSet.getString(0);
+            Toast.makeText(getActivity(),"name = "+uid,Toast.LENGTH_LONG).show(); */
         }
 
     }
