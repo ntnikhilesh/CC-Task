@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -334,9 +335,11 @@ public class FirstFragment extends Fragment implements RecyclerViewClickListener
             Log.d("total like d id =", total_like +""+uid);
 
             //Save user ID in shared preference
-            SharedPreferences pref = getActivity().getPreferences(0);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+           // SharedPreferences pref = getActivity().getPreferences(0);
             SharedPreferences.Editor edt = pref.edit();
             edt.putString(mtotal_like, uid);
+            //edt.putString(mtotal_like, "total_like");
             edt.commit();
 
             Log.d("total sp =", String.valueOf(pref.getAll().size()));

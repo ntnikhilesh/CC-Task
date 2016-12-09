@@ -1,7 +1,9 @@
 package com.example.dell.cc_task.view;
 
 import android.app.SearchManager;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -243,5 +245,12 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
     @Override
     public void someEvent(int total_like) {
         mtotal_like=total_like;
+        //Save user ID in shared preference
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        // SharedPreferences pref = getActivity().getPreferences(0);
+        SharedPreferences.Editor edt = pref.edit();
+        edt.putString("total_like",String.valueOf(mtotal_like));
+        edt.commit();
+
     }
 }
