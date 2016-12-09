@@ -134,13 +134,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.OnF
 
                 break;
 
-            case R.id.action_HIT:
-                Toast.makeText(this, "Your favorite ques", Toast.LENGTH_SHORT)
-                        .show();
-                order="desc";
-                goto_favfragment();
 
-                break;
             default:
                 break;
         }

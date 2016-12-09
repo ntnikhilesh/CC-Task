@@ -66,6 +66,7 @@ public class FavQuesAdapter extends RecyclerView.Adapter<FavQuesAdapter.ViewHold
             iv_profile_image=(ImageView)itemView.findViewById(R.id.iv_profile_img);
             button_like=(Button) itemView.findViewById(R.id.button_like);
             button_share=(Button) itemView.findViewById(R.id.button_share);
+            button_like.setVisibility(View.INVISIBLE);
             item_flag=0;
 
             // handle click event
@@ -97,36 +98,11 @@ public class FavQuesAdapter extends RecyclerView.Adapter<FavQuesAdapter.ViewHold
                 }
             });
 
-            button_like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("Share clicked","");
-                    if(listener != null)
-                        listener.onViewClicked(v, getAdapterPosition());
-                }
-            });
+
 
         }
     }
-/*
-   public void add(int position, String item) {
-        mDataset.add(position, item);
-        notifyItemInserted(position);
-    } */
-/*
-    public void remove(String item) {
-        int position = mDataset.indexOf(item);
-        mDataset.remove(position);
-        notifyItemRemoved(position);
-    }*/
 
-
-    /* public MyAdapter(Context applicationContext, ArrayList<Item> myDataset)
-     {
-         this.context=applicationContext;
-         mDataset = myDataset;
-     }
- */
     // Create new views (invoked by the layout manager)
     @Override
     public FavQuesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,

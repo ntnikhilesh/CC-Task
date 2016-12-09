@@ -1,6 +1,7 @@
 package com.example.dell.cc_task.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -97,21 +98,6 @@ public class Fav_Fragment extends Fragment implements RecyclerViewClickListener 
         // Inflate the layout for this fragment
         fl=(FrameLayout) inflater.inflate(R.layout.fragment_fav_, container, false);
 
-       /* //get total like from bundle
-        String totoal_like = getArguments().getString("total_like");
-        Log.d("Like from MC =",totoal_like);
-        //Retreive data from Shared preference
-        SharedPreferences pref = getActivity().getPreferences(0);
-        for(int i=0;i<Integer.parseInt(totoal_like);i++)
-        {
-            //use i value as Key ;
-            int mid=i+1;
-            //convert i to String as Key for SP
-            String sid= String.valueOf(mid);
-            //get data from SP for key "sid"
-            String user_id = pref.getString(sid, "default link");
-            Log.d("key and  d user id =",mid+""+user_id);
-        } */
 
 
         //Intialize view of Recycler View
@@ -133,8 +119,7 @@ public class Fav_Fragment extends Fragment implements RecyclerViewClickListener 
 
 //inflate favorite Questions
         inflate_FavQues();
-//Hit API
-       // inflate_RecyclerView();
+
 
     }
 
@@ -144,7 +129,10 @@ public class Fav_Fragment extends Fragment implements RecyclerViewClickListener 
     public void inflate_FavQues()
 
     {
-        user_id =new Integer[20];
+        user_id=new Integer[12];
+        for(int i=0;i<12;i++) {
+            user_id[i] = 0;
+        }
         //Retreive data from Shared preference
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         //getting Total like form Main Activity
@@ -174,13 +162,13 @@ public class Fav_Fragment extends Fragment implements RecyclerViewClickListener 
             @Override
             public void success(FavQuestions favQuestions, Response response) {
                 Log.d("Success FavQues","");
-                Toast.makeText(getActivity(),"from success",Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(),"from success",Toast.LENGTH_LONG).show();
                 //fetcch array objects
                 items=favQuestions.getItems();
                 //print values in Log
                 for(int i = 0; i < items.length; i++) {
                     Log.d("Item data"+i, items[i].getTitle());
-                    Toast.makeText(getActivity(),items[i].getTitle(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(),items[i].getTitle(),Toast.LENGTH_LONG).show();
                     //System.out.println(items.get(i).getLink());
                 }
 
@@ -208,56 +196,7 @@ public class Fav_Fragment extends Fragment implements RecyclerViewClickListener 
 
     }
 
-    //Hit API an inflte Recycler View
 
-    //
-    public void inflate_RecyclerView()
-
-    {                serviceInterface = NetworkApiGenerator.createService(ServiceInterface.class);
-
-
-
-        serviceInterface.getUnansweresandroidquestions("VZhcpZM*4qY7QhxpPc7OYw((","stackoverflow.com","android","desc","votes", new Callback<Questions>() {
-            @Override
-            public void success(Questions questions, Response response)
-            {
-
-                // Owner owner=new Owner();
-                Log.d("URL", response.getUrl());
-                Log.d("BODY", response.getBody().toString());
-
-                //fetcch array objects
-                items=questions.getItems();
-
-                //convert Array into ArrayList
-                ArrayList<Items> arrayList = new ArrayList<Items>(Arrays.asList(items));
-
-                // send listner interface object(this) to adapter along with context and listner
-                quesAdapter = new FavQuesAdapter(getActivity(),arrayList,Fav_Fragment.this);
-
-                // finaly set into adapter
-                recyclerView.setAdapter(quesAdapter);
-
-            /*   // print on log...
-            List<Item> items=questions.getItems();
-                for(int i = 0; i < items.size(); i++) {
-                    Log.d("Item data", items.get(i).getTitle());
-                    //System.out.println(items.get(i).getLink());
-                } */
-            }
-
-            @Override
-            public void failure(RetrofitError error)
-            {
-                Log.d("API error", error.getMessage());
-            }
-        });
-
-
-
-
-
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -283,13 +222,34 @@ public class Fav_Fragment extends Fragment implements RecyclerViewClickListener 
         mListener = null;
     }
 
+
+    // handle onClick events of Recyclde view items
     @Override
     public void onRowClicked(int position) {
+        Log.d("Row clicked",items[position].getLink());
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(items[position].getLink()));
+        getActivity().startActivity(i);
+
 
     }
 
     @Override
     public void onViewClicked(View v, int position) {
+        if(v.getId()==R.id.tv_ques) {
+            Log.d("List item clicked", items[position].getLink());
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(items[position].getLink()));
+            getActivity().startActivity(i);
+        }
+        if (v.getId()==R.id.button_share)
+        {
+            Intent i=new Intent(android.content.Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject test");
+            i.putExtra(android.content.Intent.EXTRA_TEXT, items[position].getLink());
+            startActivity(Intent.createChooser(i,"Share via"));
+        }
 
     }
 
