@@ -18,17 +18,45 @@ Tasks :
     Handle pagination , on end of scroll of items in the list , the next page items should be loaded to the end of the List.
     Handle on item click - it should open the question in the browser.
     
-    Home screen (Profile image , Question , Tags , Like and Share Button ,Search optin , Shorting options etc):
-    http://i.imgur.com/uLD6AIM.jpg
     
-    Sorting optins along with Favorite Question
-    http://i.imgur.com/101Fk7Z.jpg
     
-    Search Tag :
-    http://i.imgur.com/oX8JKn4.jpg
+    Screenshot
+=========
+
+## Home screen (Profile image , Question , Tags , Like and Share Button ,Search option , Sorting options etc):
+
+[![solarized dualmode](http://i.imgur.com/uLD6AIM.jpg)](#features)
+  
+ Sorting options along with Favorite Question
+=========    
     
-    Saved question :
-    http://imgur.com/6WSqV4H.jpg
+  
+
+[![solarized dualmode](http://i.imgur.com/101Fk7Z.jpg)](#features)
     
-    Share option :
-    http://imgur.com/hvzDC8D
+    
+    
+    
+ Search questions based on their tags :
+=========  
+ 
+
+[![solarized dualmode](http://i.imgur.com/oX8JKn4.jpg)](#features)
+
+
+
+Favorite questions :
+=========  
+
+ 
+
+[![solarized dualmode]( http://imgur.com/6WSqV4H.jpg)](#features)
+
+
+Share option :
+=========  
+
+
+[![solarized dualmode]( http://imgur.com/hvzDC8D)](#features)
+    
+    
